@@ -1,0 +1,25 @@
+{% extends "adminlte/login.html" %}
+{% load static %}
+{% load meus_filtros %}
+
+{% block content %}
+
+{% block logo_text %}<b>Painel </b> Feira Online{% endblock logo_text %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {{form.username.errors}}
+        <label>Email:</label>
+        {{form.username | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.password.errors}}
+        <label>Senha: </label>
+        {{form.password | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Enviar" class="btn btn-primary">
+    </div>
+</form>
+{% endblock content %}

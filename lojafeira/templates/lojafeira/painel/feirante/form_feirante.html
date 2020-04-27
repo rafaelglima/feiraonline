@@ -1,0 +1,59 @@
+{% extends "lojafeira/painel/base.html" %}
+{% load static %}
+{% load meus_filtros %}
+
+{% block title %}
+
+Painel Administrativo - Feirante
+
+{% endblock title %}
+
+{% block content %}
+
+{% if status != None %}
+<div class="no-print">
+    <div class="callout callout-info">
+      <i class="fa fa-info"> </i>  {% if status == True %} Dados atualizados com sucesso. {% else %} Erro ao atualizar dados. {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        {{form.nome.errors}}
+        <label>* Nome: </label>
+        {{form.nome | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.sobrenome.errors}}
+        <label>* Sobrenome:</label>
+        {{form.sobrenome | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.email.errors}}
+        <label>* E-mail: </label>
+        {{form.email | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.descricao.errors}}
+        <label>Descrição: </label>
+        {{form.descricao | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.cpf.errors}}
+        <label>CPF: </label>
+        {{form.cpf | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.foto.errors}}
+        <label>Foto: </label>
+        {{form.foto | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-primary">
+        <input type="button" value="Cancelar" class="btn btn-secondary" title="Cancelar" onclick="window.location='{% url 'listar_feirantes' %}'">
+    </div>
+</form>
+
+{% endblock content %}

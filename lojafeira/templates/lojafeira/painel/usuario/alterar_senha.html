@@ -1,0 +1,47 @@
+{% extends "lojafeira/painel/base.html" %}
+{% load static %}
+{% load meus_filtros %}
+
+{% block title %}
+
+Painel Administrativo - Alterar Senha
+
+{% endblock title %}
+
+{% block content %}
+
+<!-- mensagem de sucesso ou erro -->
+{% if status != None %}
+<div class="no-print">
+    <div class="callout callout-info">
+      <i class="fa fa-info"></i>  {% if status == True %} Dados atualizados com sucesso. {% else %} Erro ao atualizar dados. {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        {{form.old_password.errors}}
+        <label>Senha Antiga: </label>
+        {{form.old_password | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.new_password1.errors}}
+        <label>Nova Senha: </label>
+        {{form.new_password1 | addclass:'form-control'}}
+    </div>
+        <div class="form-group">
+        {{form.new_password2.errors}}
+        <label>Confirme a Nova Senha: </label>
+        {{form.new_password2 | addclass:'form-control'}}
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-primary">
+    </div>
+
+</form>
+
+{% endblock content %}

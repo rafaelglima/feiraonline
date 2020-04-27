@@ -1,0 +1,44 @@
+<!doctype html>
+
+{% extends "adminlte/base.html" %}
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        {% block title %}
+
+        {% endblock title %}
+    </title>
+</head>
+<body>
+
+{% block body_class %}
+    skin-blue hold-transition sidebar-mini
+{% endblock body_class %}
+
+{% block nav_header %}
+    {% include 'lojafeira/painel/_main_header.html' %}
+{% endblock nav_header %}
+
+{% block nav_sidebar %}
+    {% include 'lojafeira/painel/_main_sidebar.html' %}
+{% endblock nav_sidebar %}
+
+{% block content %}'
+
+{% endblock content %}
+
+{% block nav_footer %}
+    {% include 'lojafeira/painel/_main_footer.html' %}
+{% endblock %}
+
+{% block extra_foot %}
+
+{% endblock extra_foot %}
+</body>
+</html>

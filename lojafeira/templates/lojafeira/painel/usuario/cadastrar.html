@@ -1,0 +1,46 @@
+{% extends "lojafeira/painel/base.html" %}
+{% load static %}
+{% load meus_filtros %}
+
+{% block title %}
+
+Painel Administrativo - Cadastro de Usuários
+
+{% endblock title %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        {{form.email.errors}}
+        <label>E-mail para Login: </label>
+        {{form.email | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.password1.errors}}
+        <label>Senha: </label>
+        {{form.password1 | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.password2.errors}}
+        <label>Confirme a senha: </label>
+        {{form.password2 | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.nome.errors}}
+        <label>Seu Nome: </label>
+        {{form.nome | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.pais_origem.errors}}
+        <label>País de Origem: </label>
+        {{form.pais_origem | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Cadastrar" class="btn btn-primary">
+    </div>
+
+</form>
+
+{% endblock content %}

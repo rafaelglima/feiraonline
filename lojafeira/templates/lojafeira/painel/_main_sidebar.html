@@ -1,0 +1,20 @@
+{% extends 'adminlte/lib/_main_sidebar.html' %}
+{% load static %}
+{% load meus_filtros %}
+
+{% block user_panel %}
+
+{% endblock user_panel %}
+
+{% block nav_links %}
+<li>
+ <a href="{% url 'listar_feirantes' %}">
+ <i class="fa fa-globe"></i> <span>Feirantes</span>
+ </a>
+</li>
+<li>
+ <a href="{% url 'listar_usuarios' %}">
+ <i class="fa fa-user"></i> <span>Usuários</span>
+ </a>
+</li>
+{% endblock nav_links %}

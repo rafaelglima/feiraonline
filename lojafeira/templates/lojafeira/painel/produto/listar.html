@@ -1,0 +1,59 @@
+{% extends 'lojafeira/painel/base.html' %}
+
+{% load static %}
+{% load meus_filtros %}
+
+{% block title %}
+
+Painel Administrativo - Lista de Usuários
+
+{% endblock title %}
+
+{% block content %}
+    <div class="box">
+        <div class="box-header">
+            <a href="{% url 'cadastrar_usuario' %}"><button class="btn btn-primary btn-sm">Novo Usuário</button></a>
+            <!-- form_search -->
+            <div class="box-tools pull-right">
+                <div class="search-container">
+                    <form method="get" class="form-search form-group">
+                      <input name="termo" type="text" class="input-sm" placeholder="Pesquisar ...">
+                      <button type="submit" title="Pesquisar"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ações</th>
+                </tr>
+                {% for usuario in dados %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ usuario.nome }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>
+                            <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
+                            {% if usuario.id != 1 %}
+                            <a href="{% url 'remover_usuario' usuario.id %}" class="btn btn-danger btn-xs" data-confirm='' title="Apagar"><i class="fa fa-trash"></i></a></td>
+                            {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <!-- /.box-body -->
+        <!-- Paginação de Resultados -->
+        <div class="box-footer clearfix">
+            {% include 'lojafeira/painel/_pagination.html' %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_foot %}
+<script src="{% static 'lojafeira/js/modal_delete.js' %}"></script>
+{% endblock extra_foot %}

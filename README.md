@@ -8,8 +8,8 @@ Projeto Feira Online
 
 Deve-se instalar os pré-requisitos:
 
-django-adminlte2
-Pillow
-python-magic
-python-magic-bin
-django-upload-validator
+- django-adminlte2
+- Pillow
+- python-magic
+- python-magic-bin
+- django-upload-validator

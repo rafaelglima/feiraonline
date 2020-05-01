@@ -27,8 +27,13 @@ Painel Administrativo - Editar Usuário
     </div>
     <div class="form-group">
         {{form.nome.errors}}
-        <label>Seu Nome: </label>
+        <label>Nome: </label>
         {{form.nome | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        {{form.sobrenome.errors}}
+        <label>Sobrenome: </label>
+        {{form.sobrenome | addclass:'form-control'}}
     </div>
     <div class="form-group">
         {{form.pais_origem.errors}}

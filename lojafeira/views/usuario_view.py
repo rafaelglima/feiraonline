@@ -73,12 +73,13 @@ def cadastrar_usuario(request):
         form = UsuarioFormPass(data=request.POST)
         if form.is_valid():
             nome = form.cleaned_data["nome"]
+            sobrenome = form.cleaned_data["sobrenome"]
             email = form.cleaned_data["email"]
             pais_origem = form.cleaned_data["pais_origem"]
             password = form.cleaned_data["password1"]
 
             # chama a função de criação do usuário localizada no manager
-            Usuario.objects.create_user(nome=nome, email=email, pais_origem=pais_origem, password=password)
+            Usuario.objects.create_user(nome=nome, sobrenome=sobrenome, email=email, pais_origem=pais_origem, password=password)
 
             return redirect('listar_usuarios')
     else:
@@ -122,9 +123,11 @@ def editar_usuario(request, id):
     if request.method == "POST":
         if form.is_valid():
             nome = form.cleaned_data["nome"]
+            sobrenome = form.cleaned_data["sobrenome"]
             pais_origem = form.cleaned_data["pais_origem"]
 
             usuario.nome = nome
+            usuario.sobrenome = sobrenome
             usuario.pais_origem = pais_origem
 
             # Força a atualização para não criar um novo usuário e sim atualizar

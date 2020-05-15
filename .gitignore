@@ -1,2 +1,33 @@
-/venv
+# Django #
+dados*
+ENV_DIR/
+venv/
+migrations/000*
+*.log
+*.pot
+*.pyc
+__pycache__
 db.sqlite3
+
+# Backup files # 
+*.bak 
+
+# If you are using PyCharm #
+.idea
+.idea/**/workspace.xml 
+.idea/**/tasks.xml 
+.idea/dictionaries 
+.idea/**/dataSources/ 
+.idea/**/dataSources.ids 
+.idea/**/dataSources.xml 
+.idea/**/dataSources.local.xml 
+.idea/**/sqlDataSources.xml 
+.idea/**/dynamic.xml 
+.idea/**/uiDesigner.xml 
+.idea/**/gradle.xml 
+.idea/**/libraries 
+*.iws /out/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt

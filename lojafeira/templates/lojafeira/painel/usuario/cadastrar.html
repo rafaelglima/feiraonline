@@ -18,6 +18,11 @@ Painel Administrativo - Cadastro de Usuários
         {{form.email | addclass:'form-control'}}
     </div>
     <div class="form-group">
+        {{form.feirante.errors}}
+        <label>Feirante: </label>
+        {{form.feirante | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
         {{form.password1.errors}}
         <label>Senha: </label>
         {{form.password1 | addclass:'form-control'}}

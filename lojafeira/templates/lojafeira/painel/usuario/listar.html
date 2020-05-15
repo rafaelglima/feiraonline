@@ -30,6 +30,7 @@ Painel Administrativo - Lista de Usuários
                     <th>#</th>
                     <th>Nome</th>
                     <th>E-mail</th>
+                    <th>Feirante</th>
                     <th>Ações</th>
                 </tr>
                 {% for usuario in dados %}
@@ -37,6 +38,7 @@ Painel Administrativo - Lista de Usuários
                         <td>{{ forloop.counter }}</td>
                         <td>{{ usuario.nome }}</td>
                         <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.feirante }}</td>
                         <td>
                             <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
                             {% if usuario.id != 1 %}

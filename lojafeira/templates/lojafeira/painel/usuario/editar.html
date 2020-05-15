@@ -26,6 +26,11 @@ Painel Administrativo - Editar Usuário
         {{form.email | addclass:'form-control' }}
     </div>
     <div class="form-group">
+        {{form.feirante.errors}}
+        <label>Feirante Vinculado: </label>
+        {{form.feirante | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
         {{form.nome.errors}}
         <label>Nome: </label>
         {{form.nome | addclass:'form-control'}}

@@ -1,4 +1,4 @@
-#!/Users/rafaelglima/PycharmProjects/feiraonline/venv/bin/python3.7
+#!/Users/rafaelglima/PycharmProjects/feiraonline/venv/bin/python3.8
 # -*- coding: utf-8 -*-
 import re
 import sys

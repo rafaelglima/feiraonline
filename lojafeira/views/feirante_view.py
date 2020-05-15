@@ -12,16 +12,13 @@ def cadastrar_feirante(request):
         form = FeiranteForm(request.POST, request.FILES)
         if form.is_valid():
             nome = form.cleaned_data["nome"]
-            sobrenome = form.cleaned_data["sobrenome"]
             email = form.cleaned_data["email"]
-            descricao = form.cleaned_data["descricao"]
-            foto = request.FILES['foto']
+            telefone = form.cleaned_data["telefone"]
+            observacao = form.cleaned_data["observacao"]
+            imagem = request.FILES['imagem']
 
-            # tipo_pessoa = form.cleaned_data["tipo_pessoa"]
-            cpf = form.cleaned_data["cpf"]
-            # cnpj = form.cleaned_data["cnpj"]
-
-            feirante_novo = Feirante(nome=nome, sobrenome=sobrenome, email=email, cpf=cpf, descricao=descricao, foto=foto)
+            feirante_novo = Feirante(nome=nome, email=email,
+                                     telefone=telefone, observacao=observacao, imagem=imagem)
             feirante_novo.save()
 
             return redirect('listar_feirantes')
@@ -32,17 +29,14 @@ def cadastrar_feirante(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def listar_feirantes(request):
-    # buscando todos os feirantes na base de dados
-    # lista_feirantes = Feirante.objects.all()
-
     # Busca do termo
     if request.method == "GET":
         termo = request.GET.get('termo', None)
 
         if termo:
             lista_feirantes = Feirante.objects.filter(nome__icontains=termo) | \
-                              Feirante.objects.filter(sobrenome__icontains=termo) | \
-                              Feirante.objects.filter(email__icontains=termo)
+                              Feirante.objects.filter(email__icontains=termo) | \
+                              Feirante.objects.filter(observacao__icontains=termo)
         else:
             lista_feirantes = Feirante.objects.all()
     else:
@@ -50,7 +44,8 @@ def listar_feirantes(request):
 
     # Paginacao de resultados
     page = request.GET.get('page', 1)
-    paginator = Paginator(lista_feirantes, 3)  # TODO: adicionar na pag de listagem a possibilidade de definir a qtd de registros mostrados
+    paginator = Paginator(lista_feirantes,
+                          3)  # TODO: adicionar na pag de listagem a possibilidade de definir a qtd de registros mostrados
     try:
         feirantes = paginator.page(page)
     except PageNotAnInteger:
@@ -64,28 +59,24 @@ def listar_feirantes(request):
 @user_passes_test(lambda u: u.is_superuser)
 def editar_feirante(request, id):
     feirante = Feirante.objects.get(pk=id)
-    form = FeiranteForm(request.POST or None, instance=feirante)
+    form = FeiranteForm(request.POST or None, request.FILES or None, instance=feirante)
     dados = {}
 
     if request.method == "POST":
         if form.is_valid():
             nome = form.cleaned_data["nome"]
-            sobrenome = form.cleaned_data["sobrenome"]
             email = form.cleaned_data["email"]
-            descricao = form.cleaned_data["descricao"]
-            foto = form.cleaned_data["foto"]
-            # tipo_pessoa = form.cleaned_data["tipo_pessoa"]
-            cpf = form.cleaned_data["cpf"]
-            # cnpj = form.cleaned_data["cnpj"]
+            telefone = form.cleaned_data["telefone"]
+            observacao = form.cleaned_data["observacao"]
+
+            if 'imagem' in request.FILES:
+                imagem = request.FILES['imagem']
+                feirante.imagem = imagem
 
             feirante.nome = nome
-            feirante.sobrenome = sobrenome
             feirante.email = email
-            feirante.descricao = descricao
-            feirante.foto = foto
-            # feirante.tipo_pessoa = tipo_pessoa
-            feirante.cpf = cpf
-            # feirante.cnpj = cnpj
+            feirante.telefone = telefone
+            feirante.observacao = observacao
 
             # Força a atualização para não criar um novo feirante e sim atualizar
             feirante.save(force_update=True)

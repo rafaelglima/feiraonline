@@ -29,20 +29,20 @@ Painel Administrativo - Lista de Feirantes
             <table class="table table-bordered">
                 <tr>
                     <th>#</th>
-                    <th>Nome Completo</th>
+                    <th>Nome</th>
                     <th>E-mail</th>
+                    <th>Telefone</th>
                     <th>Ações</th>
                 </tr>
                 {% for feirante in dados %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ feirante.nome }} {{ feirante.sobrenome }}</td>
+                        <td>{{ feirante.nome }}</td>
                         <td>{{ feirante.email }}</td>
+                        <td>{{ feirante.telefone }}</td>
                         <td>
                             <a href="{% url 'editar_feirante' feirante.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
-                            {% if usuario.id != 1 %}
                             <a href="{% url 'remover_feirante' feirante.id %}" class="btn btn-danger btn-xs" data-confirm='' title="Apagar"><i class="fa fa-trash"></i></a></td>
-                            {% endif %}
                     </tr>
                 {% endfor %}
             </table>
@@ -57,4 +57,6 @@ Painel Administrativo - Lista de Feirantes
 
 {% block extra_foot %}
 <script src="{% static 'lojafeira/js/modal_delete.js' %}"></script>
+<script src="{% static 'lojafeira/js/jquery.mask.min.js' %}"></script>
+<script src="{% static 'lojafeira/js/masks.js' %}"></script>
 {% endblock extra_foot %}

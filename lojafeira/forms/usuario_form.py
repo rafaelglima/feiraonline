@@ -6,7 +6,7 @@ from django.db.transaction import commit
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = ('email', 'nome', 'sobrenome', 'pais_origem')
+        fields = ('email', 'nome', 'sobrenome', 'pais_origem', 'feirante')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -21,7 +21,7 @@ class UsuarioFormPass(forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ('email', 'nome', 'sobrenome', 'pais_origem')
+        fields = ('email', 'nome', 'sobrenome', 'pais_origem', 'feirante')
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

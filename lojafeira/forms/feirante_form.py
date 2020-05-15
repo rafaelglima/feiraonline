@@ -6,7 +6,7 @@ from upload_validator import FileTypeValidator
 
 
 class FeiranteForm(ModelForm):
-    foto = forms.FileField(
+    imagem = forms.FileField(
         validators=[FileTypeValidator(
             allowed_types=['image/jpeg', 'image/png']
         )]
@@ -14,4 +14,4 @@ class FeiranteForm(ModelForm):
 
     class Meta:
         model = Feirante
-        fields = ['nome', 'sobrenome', 'email', 'cpf', 'descricao', 'foto']
+        fields = ['nome', 'email', 'telefone', 'observacao', 'imagem']

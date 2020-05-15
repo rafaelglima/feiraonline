@@ -2,6 +2,8 @@ from django.urls import path
 from django.contrib import admin
 from .views.feirante_view import *
 from .views.usuario_view import *
+from .views.produto_view import *
+from .views.categoria_view import *
 
 from djangofeira import settings
 from django.conf.urls.static import static
@@ -23,6 +25,16 @@ urlpatterns = [
     path('painel/cadastrar_feirante/', cadastrar_feirante, name='cadastrar_feirante'),
     path('painel/editar_feirante/<int:id>/', editar_feirante, name='editar_feirante'),
     path('painel/remover_feirante/<int:id>/', remover_feirante, name='remover_feirante'),
+
+    path('painel/listar_categorias/', listar_categorias, name='listar_categorias'),
+    path('painel/cadastrar_categoria/', cadastrar_categoria, name='cadastrar_categoria'),
+    path('painel/editar_categoria/<int:id>/', editar_categoria, name='editar_categoria'),
+    path('painel/remover_categoria/<int:id>/', remover_categoria, name='remover_categoria'),
+
+    path('painel/listar_produtos/', listar_produtos, name='listar_produtos'),
+    path('painel/cadastrar_produto/', cadastrar_produto, name='cadastrar_produto'),
+    path('painel/editar_produto/<int:id>/', editar_produto, name='editar_produto'),
+    path('painel/remover_produto/<int:id>/', remover_produto, name='remover_produto'),
 ]
 
 if settings.DEBUG:

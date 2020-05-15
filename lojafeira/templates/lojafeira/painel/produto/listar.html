@@ -5,14 +5,14 @@
 
 {% block title %}
 
-Painel Administrativo - Lista de Usuários
+Painel Administrativo - Lista de Produtos
 
 {% endblock title %}
 
 {% block content %}
     <div class="box">
         <div class="box-header">
-            <a href="{% url 'cadastrar_usuario' %}"><button class="btn btn-primary btn-sm">Novo Usuário</button></a>
+            <a href="{% url 'cadastrar_produto' %}"><button class="btn btn-primary btn-sm">Novo Produto</button></a>
             <!-- form_search -->
             <div class="box-tools pull-right">
                 <div class="search-container">
@@ -29,19 +29,32 @@ Painel Administrativo - Lista de Usuários
                 <tr>
                     <th>#</th>
                     <th>Nome</th>
-                    <th>E-mail</th>
+                    <th>Categoria</th>
+                    <th>Valor</th>
+                    <th>Valor Promo</th>
+                    <th>Unidade Medida</th>
+                    <th>Quantidade Estoque</th>
+                    {% if user.is_superuser %}
+                    <th>Feirante</th>
+                    {% endif %}
                     <th>Ações</th>
                 </tr>
-                {% for usuario in dados %}
+                {% for produto in dados %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ usuario.nome }}</td>
-                        <td>{{ usuario.email }}</td>
+                        <td>{{ produto.nome }}</td>
+                        <td>{{ produto.categoria }}</td>
+                        <td>{{ produto.valor }}</td>
+                        <td>{{ produto.valor_promocional }}</td>
+                        <td>{{ produto.unidade_medida }}</td>
+                        <td>{{ produto.qtd_estoque }}</td>
+                        {% if user.is_superuser %}
+                        <td>{{ produto.feirante }}</td>
+                        {% endif %}
                         <td>
-                            <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
-                            {% if usuario.id != 1 %}
-                            <a href="{% url 'remover_usuario' usuario.id %}" class="btn btn-danger btn-xs" data-confirm='' title="Apagar"><i class="fa fa-trash"></i></a></td>
-                            {% endif %}
+                            <a href="{% url 'editar_produto' produto.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
+                            <a href="{% url 'remover_produto' produto.id %}" class="btn btn-danger btn-xs" data-confirm='' title="Apagar"><i class="fa fa-trash"></i></a></td>
+
                     </tr>
                 {% endfor %}
             </table>

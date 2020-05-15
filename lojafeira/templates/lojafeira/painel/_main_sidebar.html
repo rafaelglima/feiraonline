@@ -7,6 +7,7 @@
 {% endblock user_panel %}
 
 {% block nav_links %}
+{% if user.is_superuser %}
 <li>
  <a href="{% url 'listar_feirantes' %}">
  <i class="fa fa-globe"></i> <span>Feirantes</span>
@@ -15,6 +16,17 @@
 <li>
  <a href="{% url 'listar_usuarios' %}">
  <i class="fa fa-user"></i> <span>Usuários</span>
+ </a>
+</li>
+<li>
+ <a href="{% url 'listar_categorias' %}">
+ <i class="fa fa-dot-circle-o"></i> <span>Categorias</span>
+ </a>
+</li>
+{% endif %}
+<li>
+ <a href="{% url 'listar_produtos' %}">
+ <i class="fa fa-product-hunt"></i> <span>Produtos</span>
  </a>
 </li>
 {% endblock nav_links %}

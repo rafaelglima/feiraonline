@@ -30,8 +30,8 @@ def listar_categorias(request):
         termo = request.GET.get('termo', None)
 
         if termo:
-            lista_categorias = Categoria.objects.filter(nome__icontains=termo) | \
-                              Categoria.objects.filter(descricao__icontains=termo)
+            lista_categorias = Categoria.objects.filter(nome__icontains=termo).order_by('nome') | \
+                              Categoria.objects.filter(descricao__icontains=termo).order_by('descricao')
         else:
             lista_categorias = Categoria.objects.all()
     else:
@@ -39,7 +39,7 @@ def listar_categorias(request):
 
     # Paginacao de resultados
     page = request.GET.get('page', 1)
-    paginator = Paginator(lista_categorias, 3)  # TODO: adicionar na pag de listagem a possibilidade de definir a qtd de registros mostrados
+    paginator = Paginator(lista_categorias, 10)  # TODO: adicionar na pag de listagem a possibilidade de definir a qtd de registros mostrados
     try:
         categorias = paginator.page(page)
     except PageNotAnInteger:

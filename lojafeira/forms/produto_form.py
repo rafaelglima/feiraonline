@@ -14,7 +14,7 @@ class ProdutoForm(ModelForm):
 
     class Meta:
         model = Produto
-        fields = ['nome', 'categoria', 'feirante', 'descricao', 'valor', 'valor_promocional', 'unidade_medida',
+        fields = ['nome', 'categoria', 'feirante', 'descricao', 'valor', 'valor_promocional', 'is_promo', 'unidade_medida',
                   'qtd_estoque', 'imagem']
         exclude = ('feirante',)
 
@@ -28,5 +28,5 @@ class ProdutoFormAdmin(ModelForm):
 
     class Meta:
         model = Produto
-        fields = ['nome', 'categoria', 'feirante', 'descricao', 'valor', 'valor_promocional', 'unidade_medida',
+        fields = ['nome', 'categoria', 'feirante', 'descricao', 'valor', 'valor_promocional', 'is_promo', 'unidade_medida',
                   'qtd_estoque', 'imagem']

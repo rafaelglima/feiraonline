@@ -1,0 +1,64 @@
+{% extends "lojafeira/painel/base.html" %}
+{% load static %}
+{% load meus_filtros %}
+
+{% block title %}
+
+Painel Administrativo - Pedidos
+
+{% endblock title %}
+
+{% block content %}
+
+{% if status != None %}
+<div class="no-print">
+    <div class="callout callout-info">
+      <i class="fa fa-info"> </i>  {% if status == True %} Dados atualizados com sucesso. {% else %} Erro ao atualizar dados. {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>* Número do Pedido:</label>
+        {{pedido_id}}
+    </div>
+    <div class="form-group">
+        <label>* Feirante:</label>
+        {{feirante_nome}}
+    </div>
+    <div class="form-group">
+        <label>Valor Total (R$):</label>
+        {{valor}}
+    </div>
+   <div class="box">
+   <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>#</th>
+                    <th>Produto</th>
+                    <th>Valor</th>
+                    <th>Quantidade</th>
+                </tr>
+                {% for i in pedido_produtos %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.produto.nome }}</td>
+                        {% if i.produto.is_promo is True %}
+                        <td><strong>{{ i.produto.valor_promocional }}</strong></td>
+                        {% else %}
+                            <td>{{ i.produto.valor }}</td>
+                        {% endif %}
+                        <td><input type="number" name="qtd_produtos[]" min="0" max="{{i.produto.qtd_estoque}}" value="{{i.quantidade}}" /></td>
+                    </tr>
+                {% endfor %}
+            </table>
+    </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-primary">
+        <input type="button" value="Cancelar" class="btn btn-secondary" title="Cancelar" onclick="window.location='{% url 'listar_pedidos' %}'">
+    </div>
+</form>
+{% endblock content %}

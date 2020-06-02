@@ -5,14 +5,14 @@
 
 {% block title %}
 
-Painel Administrativo - Lista de Produtos
+Painel Administrativo - Lista de Pedidos
 
 {% endblock title %}
 
 {% block content %}
     <div class="box">
         <div class="box-header">
-            <a href="{% url 'cadastrar_produto' %}"><button class="btn btn-primary btn-sm">Novo Produto</button></a>
+            <a href="{% url 'cadastrar_pedido' %}"><button class="btn btn-primary btn-sm">Novo Pedido</button></a>
             <!-- form_search -->
             <div class="box-tools pull-right">
                 <div class="search-container">
@@ -28,34 +28,23 @@ Painel Administrativo - Lista de Produtos
             <table class="table table-bordered">
                 <tr>
                     <th>#</th>
-                    <th>Nome</th>
-                    <th>Categoria</th>
+                    <th>Pedido</th>
+                    <th>Status</th>
                     <th>Valor</th>
-                    <th>Promoção?</th>
-                    <th>Valor Promo</th>
-                    <th>Unidade Medida</th>
-                    <th>Quantidade Estoque</th>
-                    {% if user.is_superuser %}
-                    <th>Feirante</th>
-                    {% endif %}
+                    <th>Data/Hora</th>
                     <th>Ações</th>
                 </tr>
-                {% for produto in dados %}
+                {% for pedido in dados %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ produto.nome }}</td>
-                        <td>{{ produto.categoria }}</td>
-                        <td>{{ produto.valor }}</td>
-                        <td>{{ produto.is_promo }}</td>
-                        <td>{{ produto.valor_promocional }}</td>
-                        <td>{{ produto.unidade_medida }}</td>
-                        <td>{{ produto.qtd_estoque }}</td>
-                        {% if user.is_superuser %}
-                        <td>{{ produto.feirante }}</td>
-                        {% endif %}
+                        <td>{{ pedido }}</td>
+                        <td>{{ pedido.status }}</td>
+                        <td>{{ pedido.valor }}</td>
+                        <td>{{ pedido.dt_criacao }}</td>
                         <td>
-                            <a href="{% url 'editar_produto' produto.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
-                            <a href="{% url 'remover_produto' produto.id %}" class="btn btn-danger btn-xs" data-confirm='' title="Apagar"><i class="fa fa-trash"></i></a></td>
+                            <a href="{% url 'cadastrar_pedido_produtos' pedido.id %}" class="btn btn-info btn-xs" title="Produtos"><i class="fa fa-suitcase"></i></a>
+                            <a href="{% url 'editar_pedido' pedido.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
+                            <a href="{% url 'remover_pedido' pedido.id %}" class="btn btn-danger btn-xs" data-confirm='' title="Apagar"><i class="fa fa-trash"></i></a></td>
 
                     </tr>
                 {% endfor %}

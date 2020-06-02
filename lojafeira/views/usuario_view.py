@@ -75,11 +75,12 @@ def cadastrar_usuario(request):
             nome = form.cleaned_data["nome"]
             sobrenome = form.cleaned_data["sobrenome"]
             email = form.cleaned_data["email"]
+            feirante = form.cleaned_data["feirante"]
             pais_origem = form.cleaned_data["pais_origem"]
             password = form.cleaned_data["password1"]
 
             # chama a função de criação do usuário localizada no manager
-            Usuario.objects.create_user(nome=nome, sobrenome=sobrenome, email=email, pais_origem=pais_origem, password=password)
+            Usuario.objects.create_user(nome=nome, sobrenome=sobrenome, email=email, feirante=feirante, pais_origem=pais_origem, password=password)
 
             return redirect('listar_usuarios')
     else:
@@ -99,8 +100,6 @@ def listar_usuarios(request):
             lista_usuarios = Usuario.objects.all()
     else:
         lista_usuarios = Usuario.objects.all()
-
-    # lista_usuarios = Usuario.objects.all()
 
     page = request.GET.get('page', 1)
     paginator = Paginator(lista_usuarios, 3)
@@ -124,10 +123,12 @@ def editar_usuario(request, id):
         if form.is_valid():
             nome = form.cleaned_data["nome"]
             sobrenome = form.cleaned_data["sobrenome"]
+            feirante = form.cleaned_data["feirante"]
             pais_origem = form.cleaned_data["pais_origem"]
 
             usuario.nome = nome
             usuario.sobrenome = sobrenome
+            usuario.feirante = feirante
             usuario.pais_origem = pais_origem
 
             # Força a atualização para não criar um novo usuário e sim atualizar

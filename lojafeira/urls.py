@@ -4,6 +4,7 @@ from .views.feirante_view import *
 from .views.usuario_view import *
 from .views.produto_view import *
 from .views.categoria_view import *
+from .views.pedido_view import *
 
 from djangofeira import settings
 from django.conf.urls.static import static
@@ -35,6 +36,13 @@ urlpatterns = [
     path('painel/cadastrar_produto/', cadastrar_produto, name='cadastrar_produto'),
     path('painel/editar_produto/<int:id>/', editar_produto, name='editar_produto'),
     path('painel/remover_produto/<int:id>/', remover_produto, name='remover_produto'),
+
+    path('painel/listar_pedidos/', listar_pedidos, name='listar_pedidos'),
+    path('painel/cadastrar_pedido/', cadastrar_pedido, name='cadastrar_pedido'),
+    path('painel/editar_pedido/<int:id>/', editar_pedido, name='editar_pedido'),
+    path('painel/remover_pedido/<int:id>/', remover_pedido, name='remover_pedido'),
+
+    path('painel/cadastrar_pedido_produtos/<int:pedido_id>/', cadastrar_pedido_produtos, name='cadastrar_pedido_produtos'),
 ]
 
 if settings.DEBUG:

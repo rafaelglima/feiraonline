@@ -23,16 +23,16 @@ def cadastrar_produto(request):
             else:
                 feirante = Feirante.objects.get(pk=request.user.id)
 
-
             descricao = form.cleaned_data["descricao"]
             valor = form.cleaned_data["valor"]
+            is_promo = form.cleaned_data["is_promo"]
             valor_promocional = form.cleaned_data["valor_promocional"]
             unidade_medida = form.cleaned_data["unidade_medida"]
             qtd_estoque = form.cleaned_data["qtd_estoque"]
             imagem = request.FILES['imagem']
 
             produto_novo = Produto(nome=nome, descricao=descricao, categoria=categoria, feirante=feirante,
-                                   valor=valor, valor_promocional=valor_promocional, unidade_medida=unidade_medida,
+                                   valor=valor, is_promo=is_promo, valor_promocional=valor_promocional, unidade_medida=unidade_medida,
                                    qtd_estoque=qtd_estoque, imagem=imagem)
             produto_novo.save()
 
@@ -57,10 +57,11 @@ def listar_produtos(request):
                                  Produto.objects.filter(descricao__icontains=termo) | \
                                  Produto.objects.filter(feirante__nome__icontains=termo)
             else:
-                lista_produtos = Produto.objects.filter(nome__icontains=termo) | \
-                                 Produto.objects.filter(descricao__icontains=termo) | \
-                                 Produto.objects.filter(feirante__nome__icontains=termo) | \
-                                 Produto.objects.filter(feirante__id=Feirante.objects.get(pk=request.user.id).id)
+                lista_produtos = Produto.objects.filter(nome__icontains=termo,
+                                                        feirante__id=Feirante.objects.get(pk=request.user.id).id) | \
+                                  Produto.objects.filter(descricao__icontains=termo,
+                                                         feirante__id=Feirante.objects.get(pk=request.user.id).id)
+
         else:
             if request.user.is_superuser:
                 lista_produtos = Produto.objects.all()
@@ -105,6 +106,7 @@ def editar_produto(request, id):
                 feirante = Feirante.objects.get(pk=request.user.id)
             descricao = form.cleaned_data["descricao"]
             valor = form.cleaned_data["valor"]
+            is_promo = form.cleaned_data["is_promo"]
             valor_promocional = form.cleaned_data["valor_promocional"]
             unidade_medida = form.cleaned_data["unidade_medida"]
             qtd_estoque = form.cleaned_data["qtd_estoque"]
@@ -118,10 +120,10 @@ def editar_produto(request, id):
             produto.feirante = feirante
             produto.descricao = descricao
             produto.valor = valor
+            produto.is_promo = is_promo
             produto.valor_promocional = valor_promocional
             produto.unidade_medida = unidade_medida
             produto.qtd_estoque = qtd_estoque
-
 
             # Força a atualização para não criar um novo produto e sim atualizar
             produto.save(force_update=True)

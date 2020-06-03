@@ -105,25 +105,26 @@ class Pedido(models.Model):
 class PedidoProdutos(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, null=True)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE, null=True)
-    quantidade = models.IntegerField(blank=False, null=False, default=1)
+    quantidade = models.IntegerField(blank=False, null=False, default=0)
 
     def __str__(self):
         return self.produto.nome
 
 
-# Atualizar total do pedido (ao adicionar novo produto, ou remover produto, ou depois de limpar a lista de produtos)
-def pre_save_produto_receiver(sender, instance, action, **kwargs):
-    if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
-        produtos = instance.produtos.all()
-        total = 0
-        for i in produtos:
-            if i.is_promo is True:
-                total += i.valor_promocional
-            else:
-                total += i.valor
-        instance.valor = total
+def pre_save_pedido_produto_receiver(sender, instance, action, **kwargs):
+    if action == 'pre_remove' or action == 'post_clear':
+        pedido_produtos = PedidoProdutos.objects.filter(pedido=instance.id)
+
+        # antes da remocao guarda a qtd de produtos no estoque (incluindo o que ta no pedido)
+        for pp in pedido_produtos:
+            pp.produto.qtd_estoque = pp.produto.qtd_estoque + pp.quantidade
+            pp.quantidade = 0
+            pp.produto.save(force_update=True)
+            pp.save(force_update=True)
+
+        # atualiza o valor total do pedido para zero dependendo de definir novamente a qtd de produtos
+        instance.valor = 0
         instance.save()
 
 
-m2m_changed.connect(pre_save_produto_receiver, sender=Pedido.produtos.through)
-
+m2m_changed.connect(pre_save_pedido_produto_receiver, sender=Pedido.produtos.through)

@@ -50,7 +50,7 @@ Painel Administrativo - Pedidos
                         {% else %}
                             <td>{{ i.produto.valor }}</td>
                         {% endif %}
-                        <td><input type="number" name="qtd_produtos[]" min="0" max="{{i.produto.qtd_estoque}}" value="{{i.quantidade}}" /></td>
+                        <td><input type="number" name="qtd_produtos[]" min="0" max="{{i.produto.qtd_estoque|add:i.quantidade}}" value="{{i.quantidade}}" /></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -58,7 +58,7 @@ Painel Administrativo - Pedidos
     </div>
     <div class="form-group">
         <input type="submit" value="Salvar" class="btn btn-primary">
-        <input type="button" value="Cancelar" class="btn btn-secondary" title="Cancelar" onclick="window.location='{% url 'listar_pedidos' %}'">
+        <input type="button" value="Fechar" class="btn btn-secondary" title="Fechar" onclick="window.location='{% url 'listar_pedidos' %}'">
     </div>
 </form>
 {% endblock content %}

@@ -17,7 +17,9 @@ Painel Administrativo - Pedidos
     </div>
 </div>
 {% endif %}
-
+<div class="h4">
+    <strong>Editar Pedido</strong>
+</div>
 <form method="post">
     {% csrf_token %}
 
@@ -30,6 +32,19 @@ Painel Administrativo - Pedidos
         {{feirante_nome}}
     </div>
     <div class="form-group">
+        <label>* Valor do Pedido: </label>
+        {{valor}}
+    </div>
+    <div class="form-group">
+        {{form.status.errors}}
+        <label>* Status: </label>
+        {{form.status | addclass:'form-control'}}
+    </div>
+    <div class="form-group">
+        <label>* Data/Hora do Pedido: </label>
+        {{dt_criacao}}
+    </div>
+    <div class="form-group">
         {{form.observacao.errors}}
         <label>* Observações: </label>
         {{form.observacao | addclass:'form-control'}}
@@ -40,20 +55,7 @@ Painel Administrativo - Pedidos
         {{form.produtos | addclass:'form-control' }}
     </div>
     <div class="form-group">
-        {{form.status.errors}}
-        <label>* Status: </label>
-        {{form.status | addclass:'form-control'}}
-    </div>
-    <div class="form-group">
-        <label>* Valor: </label>
-        {{valor}}
-    </div>
-    <div class="form-group">
-        <label>* Data/Hora do Pedido: </label>
-        {{dt_criacao}}
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Salvar" class="btn btn-primary">
+        <input type="submit" value="Avançar" class="btn btn-primary">
         <input type="button" value="Cancelar" class="btn btn-secondary" title="Cancelar" onclick="window.location='{% url 'listar_pedidos' %}'">
     </div>
 </form>

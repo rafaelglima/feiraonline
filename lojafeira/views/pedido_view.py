@@ -42,7 +42,7 @@ def cadastrar_pedido(request):
 
             pedido_novo.save()
 
-            return redirect('listar_pedidos')
+            return redirect('../cadastrar_pedido_produtos/' + str(pedido_novo.id))
 
     else:
         if request.user.is_superuser:
@@ -70,17 +70,26 @@ def cadastrar_pedido_produtos(request, pedido_id):
         count = 0
         pedido.valor = 0.0
         for i in pedido_produtos:
+            qtd_anterior = i.quantidade  # variavel auxiliar
             i.quantidade = qtd_produtos[count]
 
-            # Verifica se o produto está em promocao
+            # Verifica se o produto está em promocao e atualiza valor do pedido
             if i.produto.is_promo is True:
                 pedido.valor = Decimal(pedido.valor) + Decimal(i.quantidade) * i.produto.valor_promocional
             else:
                 pedido.valor = Decimal(pedido.valor) + Decimal(i.quantidade) * i.produto.valor
 
+            # Atualiza valor no estoque (se aumentarmos qtd no pedido diminui no estoque)
+            if int(i.quantidade) > int(qtd_anterior):
+                i.produto.qtd_estoque = int(i.produto.qtd_estoque) - (int(i.quantidade) - int(qtd_anterior))
+            else:
+                i.produto.qtd_estoque = int(i.produto.qtd_estoque) + (int(qtd_anterior) - int(i.quantidade))
+
             count += 1
-            i.save(force_update=True)
-        # Salva devido a alteração de quantidade de produtos e consequentemente de valor
+            i.produto.save(force_update=True)   # salva estoque novo do produto
+            i.save(force_update=True)           # salva quantidade nova dos produtos no pedido
+
+        # Salva valor do pedido (devido a alteração de quantidade de produtos e consequentemente de valor)
         pedido.save(force_update=True)
 
         dados['status'] = True
@@ -171,7 +180,8 @@ def editar_pedido(request, id):
             dados['dt_criacao'] = pedido.dt_criacao
             dados['valor'] = pedido.valor
             dados['feirante_nome'] = feirante.nome
-            return render(request, 'lojafeira/painel/pedido/editar_pedido.html', dados)
+            # return render(request, 'lojafeira/painel/pedido/editar_pedido.html', dados)
+            return redirect('../../cadastrar_pedido_produtos/' + str(pedido.id))
         else:
             dados['status'] = False
 
@@ -190,6 +200,14 @@ def editar_pedido(request, id):
 @login_required(login_url='logar_usuario')
 def remover_pedido(request, id):
     pedido = Pedido.objects.get(pk=id)
+    pedido_produtos = PedidoProdutos.objects.filter(pedido=id)
+
     if request.method == 'POST' or request.method == 'GET':
+        # Atualiza o valor de estoque do produto para entao apagar o pedido
+        for pp in pedido_produtos:
+            produto = Produto.objects.get(pk=pp.produto.id)
+            produto.qtd_estoque = produto.qtd_estoque + pp.quantidade
+            produto.save(force_update=True)
+
         pedido.delete()
         return redirect('listar_pedidos')

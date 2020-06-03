@@ -39,11 +39,15 @@ Painel Administrativo - Lista de Pedidos
                         <td>{{ forloop.counter }}</td>
                         <td>{{ pedido }}</td>
                         <td>{{ pedido.status }}</td>
+                        {% if pedido.valor is None or pedido.valor == 0 %}
+                        <td>Defina os produtos.</td>
+                        {% else %}
                         <td>{{ pedido.valor }}</td>
+                        {% endif %}
                         <td>{{ pedido.dt_criacao }}</td>
                         <td>
-                            <a href="{% url 'cadastrar_pedido_produtos' pedido.id %}" class="btn btn-info btn-xs" title="Produtos"><i class="fa fa-suitcase"></i></a>
                             <a href="{% url 'editar_pedido' pedido.id %}" class="btn btn-primary btn-xs" title="Editar"><i class="fa fa-eye"></i></a>
+                            <a href="{% url 'cadastrar_pedido_produtos' pedido.id %}" class="btn btn-info btn-xs" title="Produtos"><i class="fa fa-suitcase"></i></a>
                             <a href="{% url 'remover_pedido' pedido.id %}" class="btn btn-danger btn-xs" data-confirm='' title="Apagar"><i class="fa fa-trash"></i></a></td>
 
                     </tr>

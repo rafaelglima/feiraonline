@@ -10,7 +10,7 @@ from decimal import Decimal
 @login_required(login_url='logar_usuario')
 def cadastrar_pedido(request):
     dados = {}
-    user_feirante_id = Feirante.objects.get(pk=request.user.id).id
+    user_feirante_id = Usuario.objects.get(pk=request.user.id).feirante.id
 
     if request.method == "POST":
         if request.user.is_superuser:
@@ -121,17 +121,17 @@ def listar_pedidos(request):
                 lista_pedidos = Pedido.objects.filter(id__icontains=termo) | \
                                 Pedido.objects.filter(observacao__icontains=termo) | \
                                 Pedido.objects.filter(feirante__nome__icontains=termo) | \
-                                Pedido.objects.filter(feirante__id=Feirante.objects.get(pk=request.user.id).id)
+                                Pedido.objects.filter(feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
         else:
             if request.user.is_superuser:
                 lista_pedidos = Pedido.objects.all()
             else:
-                lista_pedidos = Pedido.objects.filter(feirante__id=Feirante.objects.get(pk=request.user.id).id)
+                lista_pedidos = Pedido.objects.filter(feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
     else:
         if request.user.is_superuser:
             lista_pedidos = Pedido.objects.all()
         else:
-            lista_pedidos = Pedido.objects.filter(feirante__id=Feirante.objects.get(pk=request.user.id).id)
+            lista_pedidos = Pedido.objects.filter(feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
 
     # Paginacao de resultados
     page = request.GET.get('page', 1)
@@ -152,7 +152,7 @@ def editar_pedido(request, id):
     dados = {}
     pedido = Pedido.objects.get(pk=id)
     feirante = Feirante.objects.get(pk=pedido.feirante.id)
-    user_feirante_id = Feirante.objects.get(pk=request.user.id).id
+    user_feirante_id = Usuario.objects.get(pk=request.user.id).feirante.id
     feirante_id = pedido.feirante.id
 
     # Questao de seguranca para nao aceitar que usuarios comuns editem pedidos de outros feirantes

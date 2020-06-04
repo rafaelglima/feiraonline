@@ -58,20 +58,20 @@ def listar_produtos(request):
                                  Produto.objects.filter(feirante__nome__icontains=termo)
             else:
                 lista_produtos = Produto.objects.filter(nome__icontains=termo,
-                                                        feirante__id=Feirante.objects.get(pk=request.user.id).id) | \
+                                                        feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id) | \
                                   Produto.objects.filter(descricao__icontains=termo,
-                                                         feirante__id=Feirante.objects.get(pk=request.user.id).id)
+                                                         feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
 
         else:
             if request.user.is_superuser:
                 lista_produtos = Produto.objects.all()
             else:
-                lista_produtos = Produto.objects.filter(feirante__id=Feirante.objects.get(pk=request.user.id).id)
+                lista_produtos = Produto.objects.filter(feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
     else:
         if request.user.is_superuser:
             lista_produtos = Produto.objects.all()
         else:
-            lista_produtos = Produto.objects.filter(feirante__id=Feirante.objects.get(pk=request.user.id).id)
+            lista_produtos = Produto.objects.filter(feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
 
     # Paginacao de resultados
     page = request.GET.get('page', 1)

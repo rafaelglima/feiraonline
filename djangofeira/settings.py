@@ -82,11 +82,19 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'feiraonline',
         'USER': 'root',
-        'PASSWORD': 'Ne271536',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'django_cache',
+    }
+}
+
 
 
 # Password validation

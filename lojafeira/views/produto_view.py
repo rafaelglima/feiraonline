@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.cache import cache_page
 
 from lojafeira.models import *
 from lojafeira.forms.produto_form import ProdutoForm, ProdutoFormAdmin
@@ -32,7 +33,8 @@ def cadastrar_produto(request):
             imagem = request.FILES['imagem']
 
             produto_novo = Produto(nome=nome, descricao=descricao, categoria=categoria, feirante=feirante,
-                                   valor=valor, is_promo=is_promo, valor_promocional=valor_promocional, unidade_medida=unidade_medida,
+                                   valor=valor, is_promo=is_promo, valor_promocional=valor_promocional,
+                                   unidade_medida=unidade_medida,
                                    qtd_estoque=qtd_estoque, imagem=imagem)
             produto_novo.save()
 
@@ -45,6 +47,7 @@ def cadastrar_produto(request):
     return render(request, 'lojafeira/painel/produto/form_produto.html', {'form': form})
 
 
+@cache_page(60)
 @login_required(login_url='logar_usuario')
 def listar_produtos(request):
     # Busca do termo
@@ -58,15 +61,18 @@ def listar_produtos(request):
                                  Produto.objects.filter(feirante__nome__icontains=termo)
             else:
                 lista_produtos = Produto.objects.filter(nome__icontains=termo,
-                                                        feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id) | \
-                                  Produto.objects.filter(descricao__icontains=termo,
-                                                         feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
+                                                        feirante__id=Usuario.objects.get(
+                                                            pk=request.user.id).feirante.id) | \
+                                 Produto.objects.filter(descricao__icontains=termo,
+                                                        feirante__id=Usuario.objects.get(
+                                                            pk=request.user.id).feirante.id)
 
         else:
             if request.user.is_superuser:
                 lista_produtos = Produto.objects.all()
             else:
-                lista_produtos = Produto.objects.filter(feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
+                lista_produtos = Produto.objects.filter(
+                    feirante__id=Usuario.objects.get(pk=request.user.id).feirante.id)
     else:
         if request.user.is_superuser:
             lista_produtos = Produto.objects.all()
